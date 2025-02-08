@@ -1,26 +1,26 @@
-version: '3.8'
 x-common:
   database:
-    &db-environment
     # Do not remove the "&db-password" from the end of the line below, it is important
     # for Panel functionality.
-    MYSQL_PASSWORD: &db-password "CHANGE_ME"
-    MYSQL_ROOT_PASSWORD: "CHANGE_ME"
-  panel:
-    &panel-environment
-    APP_URL: "https://panel.example.com"
+    &db-environment
+    MYSQL_PASSWORD: &db-password "${DB_PASSWORD}"
+    MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+  panel: &panel-environment
+    HASHIDS_SALT: "${HASHIDS_SALT}"
+    HASHIDS_LENGTH: "${HASHIDS_LENGTH}"
+    APP_KEY: "${APP_KEY}"
+    APP_URL: "${APP_URL}"
     # A list of valid timezones can be found here: http://php.net/manual/en/timezones.php
-    APP_TIMEZONE: "UTC"
-    APP_SERVICE_AUTHOR: "admin@example.com"
-  mail:
-    &mail-environment
-    MAIL_FROM: "noreply@example.com"
-    MAIL_DRIVER: "smtp"
-    MAIL_HOST: "mail"
-    MAIL_PORT: "1025"
-    MAIL_USERNAME: ""
-    MAIL_PASSWORD: ""
-    MAIL_ENCRYPTION: "true"
+    APP_TIMEZONE: "${APP_TIMEZONE}"
+    APP_SERVICE_AUTHOR: "${APP_SERVICE_AUTHOR}"
+  mail: &mail-environment
+    MAIL_FROM: "${MAIL_FROM}"
+    MAIL_DRIVER: "${MAIL_DRIVER}"
+    MAIL_HOST: "${MAIL_HOST}"
+    MAIL_PORT: "${MAIL_PORT}"
+    MAIL_USERNAME: "${MAIL_USERNAME}"
+    MAIL_PASSWORD: "${MAIL_PASSWORD}"
+    MAIL_ENCRYPTION: "${MAIL_ENCRYPTION}"
 
 #
 # ------------------------------------------------------------------------------------------
@@ -65,7 +65,7 @@ services:
       - "${DATA_DIR}/panel/logs/:/app/storage/logs"
       - "${DATA_DIR}/panel/nginx/:/etc/nginx/conf.d/"
     environment:
-      <<: [*panel-environment, *mail-environment]
+      <<: [ *panel-environment, *mail-environment ]
       DB_PASSWORD: *db-password
       APP_ENV: "production"
       APP_ENVIRONMENT_ONLY: "false"

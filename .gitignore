@@ -1,0 +1,39 @@
+# Environment files with sensitive data
+panel/compose/.env
+
+# Keep templates and non-sensitive env files
+!**/.env.template
+!wings/compose/.env
+!_base/compose/.env
+!panel/data/panel/var/.env
+!panel/data/panel/var/env
+# Docker volumes and data
+**/data/*
+!**/data/.gitkeep
+
+# Traefik specific
+**/acme.json
+
+# Logs
+**/*.log
+**/logs/
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Application specific
+**/wings/config.yml
+**/panel/var/
+**/panel/storage/
+**/database/
+
+# Keep necessary empty directories
+!**/.gitkeep 
